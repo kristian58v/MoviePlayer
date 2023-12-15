@@ -1,0 +1,207 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+*::-webkit-scrollbar {
+    width: 4px; /* Width of the scrollbar */
+}
+
+*::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+    background: #ccb334;
+    border-radius: 4px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+    background: #b3a02c;
+}
+
+
+html, body {
+    height: auto;
+    width: auto;
+    margin: 0;
+    font-family: Poppins, sans-serif;
+    overflow: hidden;
+}
+
+.mainPage {
+    display: flex;
+    flex-direction: row;
+}
+
+.navbar {
+    z-index: 1;
+    flex: 1;
+    background-color: #262626;
+    max-width: 200px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 5px 0 10px -5px #111;
+    top: 0;
+    left: 0;
+}
+
+.navContent {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.navLogo img {
+    height: 75px;
+    display: block;
+    margin: 15px auto;
+}
+
+.navTabs {
+    display: flex;
+    flex-direction: column;
+    margin-top: auto;
+    padding: 15px;
+    flex: 1;
+    font-weight: bold;
+    font-size: 0.9em;
+}
+
+.navLink {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+}
+
+.logout-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logout-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    background-color: transparent;
+    border: none;
+    color: #B0B0B0;
+    padding: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 200ms ease;
+}
+
+.logout-btn:hover {
+    background-color: #313131;
+    color: #FFFFFF;
+}
+
+.navTabs a {
+    padding: 10px 15px;
+    text-decoration: none;
+    color: #B0B0B0;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.navTabs a:hover {
+    background-color: #313131;
+    color: #FFFFFF;
+}
+
+.navTabs .active {
+    background-color: #1F1F1F;
+    color: #ccb334;
+}
+
+.movie-player-container {
+    outline: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: rgba(0, 0, 0, 0.20) 2px 2px 3px;
+    width: 75%;
+    aspect-ratio: 16 / 9;
+}
+
+.movie-player-container iframe {
+    border: none;
+}
+
+.page-wrapper {
+    flex: 6;
+    text-align: center;
+    height: 100vh;
+    padding: 0 25px;
+    background-color: #1A1A1A;
+}
+
+.page {
+    height: 100%;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    color: #FFFFFF;
+}
+
+.login-title {
+    color: #ccb334;
+    margin-bottom: 20px;
+}
+
+.login-container img {
+    width: 100px;
+}
+
+.google-login-button {
+    font-size: 1.2em !important;
+}
+
+
+@media screen and (max-width: 768px) {
+
+    * {
+        font-size: 0.98em;
+    }
+
+    .page-wrapper {
+        padding: 0 10px;
+    }
+
+    .movie-player-container {
+        width: 95vw;
+    }
+
+    .navLogo img {
+        height: 60px;
+    }
+
+    .navbar {
+        max-width: 75px;
+    }
+
+    .navLink {
+        justify-content: center;
+    }
+
+    .navText {
+        display: none;
+    }
+}
