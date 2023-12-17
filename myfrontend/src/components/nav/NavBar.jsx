@@ -5,17 +5,32 @@ import TrendingIcon from "@mui/icons-material/TrendingUp";
 import SearchIcon from "@mui/icons-material/Search";
 import StarIcon from "@mui/icons-material/Star";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
+import {useAuth} from "../../context/AuthContext";
 
 const NavBar = () => {
 
-    const handleLogout = () => {
-        // Implement logout logic here
-        // e.g., remove token from localStorage, update auth context
-        localStorage.removeItem('authToken');
-        // If using auth context to manage authentication state
-        // setAuthenticated(false);
-        window.location.reload()
+    const { setAuthenticated } = useAuth();
+
+    const handleLogout = async () => {
+        try {
+            const response = await fetch('/api/logout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                // credentials: 'include',
+            });
+
+            if (response.ok) {
+                setAuthenticated(false);
+            } else {
+                console.error('Logout failed');
+            }
+        } catch (error) {
+            console.error('Logout failed:', error);
+        }
     };
+
 
     return (
         <div className={"navbar"}>

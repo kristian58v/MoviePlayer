@@ -1,5 +1,4 @@
 import logging
-import os
 
 from bs4 import BeautifulSoup
 from django.http import HttpResponse
@@ -84,7 +83,7 @@ def search_movies_tv(request):
             item['genre_names'] = [genre_tv.get(genre_id) for genre_id in item.get('genre_ids', []) if
                                    genre_tv.get(genre_id)]
 
-    LogEntry.objects.create(level='INFO', message=f"Query: {query}", user_id=request.email)
+    LogEntry.objects.create(level='INFO', message=f"Query: {query}", user=request.user)
 
     # Return the response data as JSON
     return Response(data)
@@ -94,7 +93,6 @@ def search_movies_tv(request):
 @authenticated
 def get_trending_movies(request):
     base_url = "https://api.themoviedb.org/3/trending/movie/week?language=en-US"
-    # base_url = "https://api.themoviedb.org/3/discover/movie?include_adult=false&page=1&sort_by=popularity.desc"
 
     # TMDb API Key as Bearer token
     headers = {
@@ -116,6 +114,8 @@ def get_trending_movies(request):
         item['genre_names'] = [genre_map.get(genre_id) for genre_id in item.get('genre_ids', []) if
                                genre_map.get(genre_id)]
 
+    LogEntry.objects.create(level='INFO', message="Trending Movies", user=request.user)
+
     return Response(data)
 
 
@@ -123,7 +123,6 @@ def get_trending_movies(request):
 @authenticated
 def get_trending_series(request):
     base_url = "https://api.themoviedb.org/3/trending/tv/week?language=en-US"
-    # base_url = "https://api.themoviedb.org/3/discover/tv?include_adult=false&include_null_first_air_dates=false&language=en-US&page=1&sort_by=popularity.desc"
 
     # TMDb API Key as Bearer token
     headers = {
@@ -144,6 +143,8 @@ def get_trending_series(request):
         item['media_type'] = 'tv'
         item['genre_names'] = [genre_map.get(genre_id) for genre_id in item.get('genre_ids', []) if
                                genre_map.get(genre_id)]
+
+    LogEntry.objects.create(level='INFO', message="Trending Series", user=request.user)
 
     return Response(data)
 
@@ -169,6 +170,8 @@ def get_popular_movies(request):
         item['media_type'] = 'movie'
         item['genre_names'] = [genre_map.get(genre_id) for genre_id in item.get('genre_ids', []) if
                                genre_map.get(genre_id)]
+
+    LogEntry.objects.create(level='INFO', message="Popular Movies", user=request.user)
 
     return Response(data)
 
@@ -197,6 +200,8 @@ def get_popular_series(request):
         item['media_type'] = 'tv'
         item['genre_names'] = [genre_map.get(genre_id) for genre_id in item.get('genre_ids', []) if
                                genre_map.get(genre_id)]
+
+    LogEntry.objects.create(level='INFO', message="Popular Series", user=request.user)
 
     return Response(data)
 

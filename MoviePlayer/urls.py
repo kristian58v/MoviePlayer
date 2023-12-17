@@ -14,10 +14,11 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
 from django.contrib import admin
 from django.urls import path
 
-from api.auth_view import google_authenticate
+from api.auth_view import exchange_code, verify_auth, logout_user
 from api import views
 from api.views import FrontendAppView
 from django.urls import re_path as url
@@ -34,7 +35,11 @@ urlpatterns = [
     path('api/trending/movies/', views.get_trending_movies, name='trending-movies'),
     path('api/trending/series/', views.get_trending_series, name='trending-series'),
 
-    path('api/google-authenticate', google_authenticate, name="google-authenticate"),
+    # path('api/google-authenticate', google_authenticate, name="google-authenticate"),
+
+    path('api/exchange_code', exchange_code, name="exchange_code"),
+    path('api/verify_auth', verify_auth, name="verify_auth"),
+    path('api/logout', logout_user, name="logout_user"),
 
     path('proxy/', views.proxy_view, name='proxy_view'),
 

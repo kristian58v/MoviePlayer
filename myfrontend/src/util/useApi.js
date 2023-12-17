@@ -1,12 +1,12 @@
 export const useApi = () => {
-    const token = localStorage.getItem('authToken'); // Or get it from a more secure place
 
     const makeRequest = async (url, options = {}) => {
         if (!options.headers) {
             options.headers = {};
         }
-        options.headers['Authorization'] = `Bearer ${token}`;
-         options.headers['accepts'] = `application/json`;
+
+        options.headers['accepts'] = `application/json`;
+        // options.credentials = 'include'
 
         try {
             const response = await fetch(url, options);

@@ -117,7 +117,7 @@ function MediaPage({ category }) {
         const items = activeTab === 0 ? movies : tvSeries;
 
         if (!loading && items.length === 0) {
-            return <div>No items available</div>;
+            return <div className={"customTab"}>No items available</div>;
         }
 
         const loadMore = () => {

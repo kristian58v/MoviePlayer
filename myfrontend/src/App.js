@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import {MainPage} from "./pages/MainPage";
+import {PageRouter} from "./pages/PageRouter";
 import { BrowserRouter } from "react-router-dom";
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import {AuthProvider} from "./context/AuthContext";
@@ -13,7 +13,7 @@ function App() {
           <AuthProvider>
               <BrowserRouter>
                   <div className="App">
-                      <MainPage />
+                      <PageRouter />
                   </div>
               </BrowserRouter>
           </AuthProvider>

@@ -11,16 +11,23 @@ import LoginPage from './LoginPage';
 import "../styles/mainpage.css"
 import "../styles/moviecard.css"
 import "../styles/loader.css"
+import {LoadingPage} from "./LoadingPage";
 
-export const MainPage = () => {
+export const PageRouter = () => {
     const navigate = useNavigate();
     const { isAuthenticated } = useAuth();
 
     React.useEffect(() => {
-        if (!isAuthenticated) {
+        // Redirect only if isAuthenticated is explicitly false
+        if (isAuthenticated === false) {
             navigate("/login");
         }
     }, [isAuthenticated, navigate]);
+
+
+    if (isAuthenticated === null) {
+        return <LoadingPage />
+    }
 
     return isAuthenticated ? (
         <div className="mainPage">

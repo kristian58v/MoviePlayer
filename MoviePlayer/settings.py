@@ -30,9 +30,6 @@ SECRET_KEY = DJANGO_SECRET_KEY
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-# SESSION_COOKIE_SECURE = True
-# CSRF_COOKIE_SECURE = True
-
 ALLOWED_HOSTS = ["localhost", "192.168.1.25", "moviedashboard.duckdns.org"]
 
 CORS_ALLOWED_ORIGINS = [
@@ -44,14 +41,14 @@ CORS_ALLOWED_ORIGINS = [
     "https://192.168.1.25",
     "http://192.168.1.25:8000",
     "https://192.168.1.25:8000"
-
 ]
 
+CORS_ALLOW_CREDENTIALS = True
 
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost",
-    "http://localhost:3000",
-    "http://localhost:8000",
+    "http://localhost:3000*",
+    "http://localhost:8000*",
     "https://moviedashboard.duckdns.org",
     "http://192.168.1.25",
     "https://192.168.1.25",
@@ -60,8 +57,9 @@ CSRF_TRUSTED_ORIGINS = [
 ]
 
 # SECURE_SSL_REDIRECT = True
-# SESSION_COOKIE_SECURE = True
-# CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_AGE = 86400
 
 # Application definition
 
