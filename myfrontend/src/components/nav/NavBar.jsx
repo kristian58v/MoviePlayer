@@ -9,28 +9,7 @@ import {useAuth} from "../../context/AuthContext";
 
 const NavBar = () => {
 
-    const { setAuthenticated } = useAuth();
-
-    const handleLogout = async () => {
-        try {
-            const response = await fetch('/api/logout', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                // credentials: 'include',
-            });
-
-            if (response.ok) {
-                setAuthenticated(false);
-            } else {
-                console.error('Logout failed');
-            }
-        } catch (error) {
-            console.error('Logout failed:', error);
-        }
-    };
-
+    const { logout } = useAuth();
 
     return (
         <div className={"navbar"}>
@@ -59,7 +38,7 @@ const NavBar = () => {
                 </div>
 
                 <div className="logout-wrapper">
-                    <button onClick={handleLogout} className="logout-btn">
+                    <button onClick={logout} className="logout-btn">
                         <ExitToAppIcon />
                         <div className={"navText"}>Logout</div>
                     </button>

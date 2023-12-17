@@ -27,8 +27,28 @@ export const AuthProvider = ({ children }) => {
         setIsAuthenticated(authStatus);
     };
 
+    const logout = async () => {
+        try {
+            const response = await fetch('/api/logout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                // credentials: 'include',  // Uncomment if needed
+            });
+
+            if (response.ok) {
+                setIsAuthenticated(false);
+            } else {
+                console.error('Logout failed');
+            }
+        } catch (error) {
+            console.error('Logout failed:', error);
+        }
+    };
+
     return (
-        <AuthContext.Provider value={{ isAuthenticated, setAuthenticated }}>
+        <AuthContext.Provider value={{ isAuthenticated, setAuthenticated,  logout}}>
             {children}
         </AuthContext.Provider>
     );

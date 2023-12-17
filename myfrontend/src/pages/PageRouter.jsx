@@ -12,6 +12,8 @@ import "../styles/mainpage.css"
 import "../styles/moviecard.css"
 import "../styles/loader.css"
 import {LoadingPage} from "./LoadingPage";
+import {NotFoundPage} from "./NotFoundPage";
+import {LogoutAction} from "../components/nav/LogoutAction";
 
 export const PageRouter = () => {
     const navigate = useNavigate();
@@ -33,7 +35,7 @@ export const PageRouter = () => {
         <div className="mainPage">
             <NavBar />
             <div className="page-wrapper">
-                <Pages />
+                <AuthenticatedPages />
             </div>
         </div>
     ) : (
@@ -41,13 +43,17 @@ export const PageRouter = () => {
     );
 };
 
+const AuthenticatedPages = () => {
 
-const Pages = () => {
     return (
         <Routes>
             <Route path="/" element={<MediaPage key="trading-key" category="trending" />} />
             <Route path="/popular" element={<MediaPage key="popular-key" category="popular" />} />
             <Route path="/discover" element={<DiscoverPage />} />
+
+            <Route path="/login" element={<LogoutAction />} />
+
+            <Route path="*" element={<NotFoundPage />} />
         </Routes>
     );
 }
