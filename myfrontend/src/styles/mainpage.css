@@ -83,6 +83,32 @@ html, body {
     gap: 10px;
 }
 
+.player-switch-wrapper {
+    color: #B0B0B0;
+    display: flex;
+    flex-direction: column;
+    padding: 25px 15px;
+    justify-content: center;
+}
+
+.player-switch {
+    justify-content: center;
+
+}
+
+.player-label {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    align-items: center;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.player-switch img {
+    width: 65px;
+}
+
 .logout-wrapper {
     display: flex;
     justify-content: center;
@@ -186,6 +212,15 @@ html, body {
 
     .userDetails {
         font-size: 0.75em;
+    }
+
+    .player-switch {
+        flex-direction: column;
+        padding-left: 20px;
+    }
+
+    .player-switch img {
+        width: 55px;
     }
 
     .navLink {

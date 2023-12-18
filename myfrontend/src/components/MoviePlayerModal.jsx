@@ -2,13 +2,21 @@ import React, {useEffect} from 'react';
 import { Modal } from '@mui/material';
 
 import { useApi } from '../util/useApi';
+import { usePlayer } from "../context/PlayerContext";
 
 function MoviePlayerModal({ isOpen, onClose, movieId, media_type, title }) {
     // Use Django proxy URL
     // const proxyUrl = `http://localhost:8000/proxy/?url=https://vidsrc.to/embed/${media_type}/${movieId}`;
 
-    const proxyUrl = `https://vidsrc.to/embed/${media_type}/${movieId}`;
-    console.log(proxyUrl)
+    const { player } = usePlayer(); // Get the current player
+
+    let proxyUrl;
+
+    if (player === "Player 1") {
+        proxyUrl = `https://vidsrc.to/embed/${media_type}/${movieId}`;
+    } else {
+        proxyUrl = `https://vidsrc.xyz/embed/${media_type}/${movieId}`;
+    }
     const makeRequest = useApi();
 
     const sendWatchedItemRequest = async () => {
