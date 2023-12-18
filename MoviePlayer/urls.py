@@ -37,9 +37,12 @@ urlpatterns = [
 
     # path('api/google-authenticate', google_authenticate, name="google-authenticate"),
 
-    path('api/exchange_code', exchange_code, name="exchange_code"),
-    path('api/verify_auth', verify_auth, name="verify_auth"),
-    path('api/logout', logout_user, name="logout_user"),
+    path('api/exchange_code', exchange_code, name="exchange-code"),
+    path('api/verify_auth', verify_auth, name="verify_-uth"),
+    path('api/logout', logout_user, name="logout-user"),
+
+    path('api/get_watched_items', views.get_watched_items, name='get-watched-items'),
+    path('api/post_watched_item', views.post_watched_item, name='post_watched_item'),
 
     path('proxy/', views.proxy_view, name='proxy_view'),
 

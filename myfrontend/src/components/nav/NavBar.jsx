@@ -5,6 +5,7 @@ import TrendingIcon from "@mui/icons-material/TrendingUp";
 import SearchIcon from "@mui/icons-material/Search";
 import StarIcon from "@mui/icons-material/Star";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
+import HistoryIcon from '@mui/icons-material/History';
 import {useAuth} from "../../context/AuthContext";
 
 const NavBar = () => {
@@ -33,6 +34,11 @@ const NavBar = () => {
                     <NavLink to="/discover" className={"navLink"}>
                         <SearchIcon />
                         <div className={"navText"}>Discover</div>
+                    </NavLink>
+
+                    <NavLink to="/history" className={"navLink"}>
+                        <HistoryIcon />
+                        <div className={"navText"}>History</div>
                     </NavLink>
 
                 </div>

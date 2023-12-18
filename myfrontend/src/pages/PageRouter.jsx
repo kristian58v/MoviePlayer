@@ -6,14 +6,16 @@ import NavBar from "../components/nav/NavBar";
 import { Routes, Route } from "react-router-dom";
 import DiscoverPage from "./DiscoverPage";
 import MediaPage from "./MediaPage";
+import HistoryPage from "./HistoryPage";
 import LoginPage from './LoginPage';
 
 import "../styles/mainpage.css"
 import "../styles/moviecard.css"
 import "../styles/loader.css"
+
 import {LoadingPage} from "./LoadingPage";
 import {NotFoundPage} from "./NotFoundPage";
-import {LogoutAction} from "../components/nav/LogoutAction";
+import {AlreadyAuthenticatedPage} from "./AlreadyAuthenticatedPage";
 
 export const PageRouter = () => {
     const navigate = useNavigate();
@@ -51,7 +53,9 @@ const AuthenticatedPages = () => {
             <Route path="/popular" element={<MediaPage key="popular-key" category="popular" />} />
             <Route path="/discover" element={<DiscoverPage />} />
 
-            <Route path="/login" element={<LogoutAction />} />
+            <Route path="/history" element={<HistoryPage />} />
+
+            <Route path="/login" element={<AlreadyAuthenticatedPage />} />
 
             <Route path="*" element={<NotFoundPage />} />
         </Routes>

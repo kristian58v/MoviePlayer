@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
-import { useAuth } from '../../context/AuthContext';
+import React from 'react';
+import { useAuth } from '../context/AuthContext';
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 
-export const LogoutAction = () => {
+export const AlreadyAuthenticatedPage = () => {
     const { logout } = useAuth();
 
     return(

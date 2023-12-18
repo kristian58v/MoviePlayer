@@ -13,7 +13,7 @@ function SearchBar({ onSearch }) {
         type="text"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        placeholder="Search Movies"
+        placeholder="Search Movies/Series"
       />
       <button onClick={handleSearch}>Search</button>
     </div>

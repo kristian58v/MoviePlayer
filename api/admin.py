@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import LogEntry
+from .models import LogEntry, WatchedItem
 
 
 class LogEntryAdmin(admin.ModelAdmin):
@@ -30,4 +30,15 @@ class LogEntryAdmin(admin.ModelAdmin):
     get_created_at.short_description = 'Created At'
 
 
+class WatchedItemAdmin(admin.ModelAdmin):
+    list_display = ('watched_on', 'movie_series_id', 'movie_series_title', 'media_type', 'get_user_name')
+
+    def get_user_name(self, obj):
+        return obj.user.get_full_name() if obj.user else '-'
+
+    get_user_name.admin_order_field = 'user__first_name'  # Adjust as needed
+    get_user_name.short_description = 'User Name'
+
+
 admin.site.register(LogEntry, LogEntryAdmin)
+admin.site.register(WatchedItem, WatchedItemAdmin)

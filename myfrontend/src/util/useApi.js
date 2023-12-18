@@ -1,12 +1,17 @@
 export const useApi = () => {
 
-    const makeRequest = async (url, options = {}) => {
-        if (!options.headers) {
-            options.headers = {};
-        }
+    const makeRequest = async (url, body = {}, method = 'GET') => {
+        const options = {
+            method: method,
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+        };
 
-        options.headers['accepts'] = `application/json`;
-        // options.credentials = 'include'
+        if (method !== 'GET') {
+            options.body = JSON.stringify(body);
+        }
 
         try {
             const response = await fetch(url, options);

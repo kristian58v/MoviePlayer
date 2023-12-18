@@ -191,6 +191,7 @@ function MediaPage({ category }) {
                     onClose={handleCloseModal}
                     movieId={selectedItem.id}
                     media_type={selectedItem.media_type}
+                    title={selectedItem.media_type === 'tv' ? selectedItem.name : selectedItem.title}
                 />
             )}
 

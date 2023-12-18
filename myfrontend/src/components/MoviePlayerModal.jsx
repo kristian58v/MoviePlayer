@@ -1,11 +1,48 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { Modal } from '@mui/material';
 
-function MoviePlayerModal({ isOpen, onClose, movieId, media_type }) {
+import { useApi } from '../util/useApi';
+
+function MoviePlayerModal({ isOpen, onClose, movieId, media_type, title }) {
     // Use Django proxy URL
     // const proxyUrl = `http://localhost:8000/proxy/?url=https://vidsrc.to/embed/${media_type}/${movieId}`;
 
     const proxyUrl = `https://vidsrc.to/embed/${media_type}/${movieId}`;
+    console.log(proxyUrl)
+    const makeRequest = useApi();
+
+    const sendWatchedItemRequest = async () => {
+        const requestData = {
+            movie_series_id: movieId,
+            movie_series_title: title,
+            media_type: media_type
+        };
+
+        const response = await makeRequest('/api/post_watched_item', requestData, 'POST');
+
+        if (response.error) {
+            console.error('Error sending watched item:', response.message || response.status);
+        } else {
+            console.log('Watched item request sent successfully for:', movieId);
+        }
+    };
+
+
+    useEffect(() => {
+        let timer;
+        if (isOpen) {
+            timer = setTimeout(() => {
+                sendWatchedItemRequest();
+            }, 15000);
+        }
+
+        return () => {
+            if (timer) {
+                clearTimeout(timer); // Clear the timeout if the modal is closed before 10 seconds
+            }
+        };
+    }, [movieId]);
+
 
     return (
         <Modal
