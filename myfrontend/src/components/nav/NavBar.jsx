@@ -1,6 +1,7 @@
 import React from "react";
 import {Link as RouterLink, NavLink } from "react-router-dom";
 import movieLogo from '../../styles/images/MovieLogo.png';
+import PersonIcon from '@mui/icons-material/Person';
 import TrendingIcon from "@mui/icons-material/TrendingUp";
 import SearchIcon from "@mui/icons-material/Search";
 import StarIcon from "@mui/icons-material/Star";
@@ -10,7 +11,7 @@ import {useAuth} from "../../context/AuthContext";
 
 const NavBar = () => {
 
-    const { logout } = useAuth();
+    const { logout, email, firstName, lastName } = useAuth();
 
     return (
         <div className={"navbar"}>
@@ -18,6 +19,12 @@ const NavBar = () => {
                 <RouterLink to="/" className="navLogo">
                     <img src={movieLogo} alt="Movie Dashboard"></img>
                 </RouterLink>
+
+                <div className={"userDetails"}>
+                    <PersonIcon />
+                    {firstName} {lastName}
+                    {/*<div>{email}</div>*/}
+                </div>
 
                 <div className="navTabs">
 

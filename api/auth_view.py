@@ -132,7 +132,10 @@ def create_or_update_user(user_info):
 @require_GET
 def verify_auth(request):
     if request.user.is_authenticated:
-        return JsonResponse({'authenticated': True})
+        return JsonResponse({'authenticated': True,
+                             'email': request.user.email,
+                             'first_name': request.user.first_name,
+                             'last_name': request.user.last_name})
     else:
         return JsonResponse({'authenticated': False}, status=401)
 

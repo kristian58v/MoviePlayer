@@ -51,6 +51,15 @@ html, body {
     height: 100%;
 }
 
+.userDetails {
+    font-size: 0.8em;
+    color: #B0B0B0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
 .navLogo img {
     height: 75px;
     display: block;
@@ -173,6 +182,10 @@ html, body {
 
     .navbar {
         max-width: 75px;
+    }
+
+    .userDetails {
+        font-size: 0.75em;
     }
 
     .navLink {
