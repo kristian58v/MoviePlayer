@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import SearchBar from "../components/SearchBar";
 import MovieCard from "../components/MovieCard";
 import MoviePlayerModal from "../components/MoviePlayerModal";
 import { useApi } from '../util/useApi';
+import { useTranslation } from 'react-i18next';
+
 
 function DiscoverPage() {
     const [movies, setMovies] = useState([]);
@@ -12,24 +14,37 @@ function DiscoverPage() {
     const [loading, setLoading] = useState(false);
     const [searchExecuted, setSearchExecuted] = useState(false); // New state
 
-  const makeRequest = useApi();
+    const [lastQuery, setLastQuery] = useState(null)
 
-  const fetchMovies = async (query) => {
-      setLoading(true);
-      setMovies([]);
+    const makeRequest = useApi();
+    const { i18n } = useTranslation();
 
-      const response = await makeRequest(`/api/search/movies/?query=${query}`);
+    useEffect(() => {
+        if (searchExecuted) {
+            fetchMovies(lastQuery);
+        }
+    }, [i18n.language]); // Depend on the current language
 
-      if (response.error) {
-          // Handle errors, e.g., show a message to the user
-          console.log('Error fetching movies:', response.message || response.status);
-      } else {
-          setMovies(response.data.results);
-      }
 
-      setLoading(false);
-      setSearchExecuted(true);
-  };
+    const fetchMovies = async (query) => {
+        setLoading(true);
+        setMovies([]);
+
+        const lang = i18n.language;
+
+        const response = await makeRequest(`/api/search/movies/?query=${query}&language=${lang}`);
+
+        if (response.error) {
+            // Handle errors, e.g., show a message to the user
+            console.log('Error fetching movies:', response.message || response.status);
+        } else {
+            setLastQuery(query)
+            setMovies(response.data.results);
+        }
+
+        setLoading(false);
+        setSearchExecuted(true);
+    };
 
   const handleMovieSelect = (movie) => {
     setSelectedMovie(movie);

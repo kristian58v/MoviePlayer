@@ -1,0 +1,26 @@
+{
+  "trending": "Актуални",
+  "popular": "Популярни",
+  "discover": "Търси",
+  "history": "История",
+  "video_player": "Видео Плеър",
+  "logout": "Изход",
+
+  "movies": "Филми",
+  "series": "Сериали",
+
+  "today": "Днес",
+  "yesterday": "Вчера",
+
+  "non_existing_page": "Страницата Не Съществува",
+  "already_authenticated": "Вече си влязъл профила си",
+
+  "search_label": "Филм или Сериал",
+  "search": "Търси",
+
+  "no_results": "Няма намерени резултати",
+
+  "first_air_date": "Дата на излъчване",
+  "release_date": "Дата на излъчване",
+  "votes": "гласове"
+}

@@ -1,0 +1,26 @@
+{
+    "trending": "Trending",
+    "popular": "Popular",
+    "discover": "Discover",
+    "history": "History",
+    "video_player": "Video Player",
+    "logout": "Logout",
+
+    "movies": "Movies",
+    "series": "TV Series",
+
+    "today": "Today",
+    "yesterday": "Yesterday",
+
+    "non_existing_page": "Page Not Found",
+    "already_authenticated": "You are already authenticated",
+
+    "search_label": "Movie or Series",
+    "search": "Search",
+
+    "no_results": "No results found",
+
+    "first_air_date": "First Air Date",
+    "release_date": "Release Date",
+    "votes": "votes"
+}

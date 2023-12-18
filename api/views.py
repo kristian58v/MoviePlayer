@@ -14,7 +14,7 @@ from rest_framework.response import Response
 import requests
 
 from MoviePlayer import settings
-from api.cache import movie_genres, series_genres
+from api.cache import movie_genres, series_genres, movie_genres_bg, series_genres_bg
 from api.decorators import authenticated
 from api.models import LogEntry, WatchedItem
 
@@ -60,16 +60,14 @@ def search_movies_tv(request):
     if not query:
         return Response({"message": "Query parameter is required"}, status=400)
 
+    language = request.query_params.get("language", "en")
+
     # Construct query parameters from request parameters
     query_params = {
         "query": query,
         "include_adult": request.query_params.get("include_adult", "false"),
-        "language": request.query_params.get("language", "en-US"),
+        "language": language,
         "page": request.query_params.get("page", 1),
-        # Add more parameters as needed
-        "primary_release_year": request.query_params.get("primary_release_year", ""),
-        "region": request.query_params.get("region", ""),
-        "year": request.query_params.get("year", "")
     }
 
     # Make the request to TMDb API with headers
@@ -77,9 +75,13 @@ def search_movies_tv(request):
     data = response.json()
     results = data.get('results', [])
 
-    # Use cached genres
-    genre_movie = {genre['id']: genre['name'] for genre in movie_genres}
-    genre_tv = {genre['id']: genre['name'] for genre in series_genres}
+    # Choose the correct genre cache based on the language
+    if language == "bg":
+        genre_movie = {genre['id']: genre['name'] for genre in movie_genres_bg}
+        genre_tv = {genre['id']: genre['name'] for genre in series_genres_bg}
+    else:
+        genre_movie = {genre['id']: genre['name'] for genre in movie_genres}
+        genre_tv = {genre['id']: genre['name'] for genre in series_genres}
 
     # Add media_type to each movie
     for item in results:
@@ -99,7 +101,8 @@ def search_movies_tv(request):
 @api_view(['GET'])
 @authenticated
 def get_trending_movies(request):
-    base_url = "https://api.themoviedb.org/3/trending/movie/week?language=en-US"
+    language = request.query_params.get("language", "en")
+    base_url = f"https://api.themoviedb.org/3/trending/movie/week?language={language}"
 
     # TMDb API Key as Bearer token
     headers = {
@@ -112,8 +115,10 @@ def get_trending_movies(request):
     data = response.json()
     results = data.get('results', [])
 
-    # Use cached genres
-    genre_map = {genre['id']: genre['name'] for genre in movie_genres}
+    if language == "bg":
+        genre_map = {genre['id']: genre['name'] for genre in movie_genres_bg}
+    else:
+        genre_map = {genre['id']: genre['name'] for genre in movie_genres}
 
     # Add media_type to each movie
     for item in results:
@@ -129,7 +134,8 @@ def get_trending_movies(request):
 @api_view(['GET'])
 @authenticated
 def get_trending_series(request):
-    base_url = "https://api.themoviedb.org/3/trending/tv/week?language=en-US"
+    language = request.query_params.get("language", "en")
+    base_url = f"https://api.themoviedb.org/3/trending/tv/week?language={language}"
 
     # TMDb API Key as Bearer token
     headers = {
@@ -142,8 +148,11 @@ def get_trending_series(request):
     data = response.json()
     results = data.get('results', [])
 
-    # Use cached genres
-    genre_map = {genre['id']: genre['name'] for genre in series_genres}
+    # Choose the correct genre cache based on the language
+    if language == "bg":
+        genre_map = {genre['id']: genre['name'] for genre in series_genres_bg}
+    else:
+        genre_map = {genre['id']: genre['name'] for genre in series_genres}
 
     # Add media_type to each series
     for item in results:
@@ -160,8 +169,14 @@ def get_trending_series(request):
 @authenticated
 def get_popular_movies(request):
     page = request.query_params.get('page', 1)
+    language = request.query_params.get("language", "en")
 
-    base_url = f"https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page={page}&sort_by=popularity.desc"
+    base_url = (f"https://api.themoviedb.org/3/discover/movie?"
+                f"include_adult=false"
+                f"&include_video=false"
+                f"&language={language}"
+                f"&page={page}"
+                f"&sort_by=popularity.desc&vote_count.gte=100")
 
     # TMDb API Key as Bearer token
     headers = {
@@ -172,7 +187,13 @@ def get_popular_movies(request):
     data = response.json()
     results = data.get('results', [])
 
-    genre_map = {genre['id']: genre['name'] for genre in movie_genres}
+    # Choose the correct genre cache based on the language
+    if language == "bg":
+        genre_map = {genre['id']: genre['name'] for genre in movie_genres_bg}
+    else:
+        genre_map = {genre['id']: genre['name'] for genre in movie_genres}
+
+
     for item in results:
         item['media_type'] = 'movie'
         item['genre_names'] = [genre_map.get(genre_id) for genre_id in item.get('genre_ids', []) if
@@ -187,8 +208,17 @@ def get_popular_movies(request):
 @authenticated
 def get_popular_series(request):
     page = request.query_params.get('page', 1)
+    language = request.query_params.get("language", "en")
 
-    base_url = f"https://api.themoviedb.org/3/discover/tv?include_adult=false&include_null_first_air_dates=false&page={page}&sort_by=popularity.desc&with_original_language=en&vote_count.gte=100&without_genre=10763"
+    base_url = (f"https://api.themoviedb.org/3/discover/tv?"
+                f"include_adult=false"
+                f"&include_null_first_air_dates=false"
+                f"&language={language}"
+                f"&page={page}"
+                f"&sort_by=popularity.desc"
+                f"&with_original_language=en"
+                f"&vote_count.gte=100"
+                f"&without_genre=10763")
 
     # TMDb API Key as Bearer token
     headers = {
@@ -199,8 +229,11 @@ def get_popular_series(request):
     data = response.json()
     results = data.get('results', [])
 
-    # Use cached genres
-    genre_map = {genre['id']: genre['name'] for genre in series_genres}
+    # Choose the correct genre cache based on the language
+    if language == "bg":
+        genre_map = {genre['id']: genre['name'] for genre in series_genres_bg}
+    else:
+        genre_map = {genre['id']: genre['name'] for genre in series_genres}
 
     # Add media_type to each series
     for item in results:
@@ -248,6 +281,8 @@ def post_watched_item(request):
 def get_watched_items(request):
     user = request.user
 
+    language = request.query_params.get("language", "en")
+
     # Get page number from request, default to 1
     page_number = request.query_params.get('page', 1)
 
@@ -270,7 +305,7 @@ def get_watched_items(request):
     for item in watched_items_page:
         media_type = item.media_type
         movie_series_id = item.movie_series_id
-        details_url = f"https://api.themoviedb.org/3/{media_type}/{movie_series_id}"
+        details_url = f"https://api.themoviedb.org/3/{media_type}/{movie_series_id}?language={language}"
 
         response = requests.get(details_url, headers=headers)
         if response.status_code == 200:

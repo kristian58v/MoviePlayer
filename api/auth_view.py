@@ -57,7 +57,7 @@ def exchange_code(request):
         if not code:
             return JsonResponse({'message': 'Code is missing'}, status=400)
 
-        print("Exchanging code")
+        # print("Exchanging code")
 
         # Exchange the code for tokens
         response = requests.post('https://oauth2.googleapis.com/token', data={
@@ -68,9 +68,9 @@ def exchange_code(request):
             'grant_type': 'authorization_code'
         })
         response_data = response.json()
-        print(response)
+        # print(response)
 
-        print("Data from obtaining tokens:", response_data)
+        # print("Data from obtaining tokens:", response_data)
 
         access_token = response_data.get('access_token')
         refresh_token = response_data.get('refresh_token')
@@ -78,7 +78,7 @@ def exchange_code(request):
         # Authenticate the user and create a session
         user_info = get_google_user_info(access_token)
 
-        print("User info", user_info)
+        # print("User info", user_info)
 
         if user_info:
             user = create_or_update_user(user_info)
@@ -111,6 +111,7 @@ def create_or_update_user(user_info):
     user, created = User.objects.get_or_create(
         email=user_info['email'],
         defaults={
+            'username': user_info['email'],
             'first_name': user_info['given_name'],
             'last_name': user_info['family_name']
         }

@@ -109,10 +109,21 @@ html, body {
     width: 65px;
 }
 
+.language-switch {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.language_label {
+    color: whitesmoke;
+}
+
 .logout-wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
 }
 
 .logout-btn {

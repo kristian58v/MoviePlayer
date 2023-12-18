@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
@@ -6,6 +6,8 @@ import MovieCard from "../components/MovieCard";
 import MoviePlayerModal from "../components/MoviePlayerModal";
 import InfiniteScroll from "react-infinite-scroller";
 import { useApi } from '../util/useApi';
+
+import { useTranslation } from 'react-i18next';
 
 function MediaPage({ category }) {
     const [activeTab, setActiveTab] = useState(0);
@@ -20,6 +22,7 @@ function MediaPage({ category }) {
     const [loading, setLoading] = useState(true);
 
     const makeRequest = useApi();
+    const { i18n } = useTranslation();
 
 
     useEffect(() => {
@@ -37,7 +40,7 @@ function MediaPage({ category }) {
         };
 
         fetchDataBasedOnTab().finally(() => setLoading(false));
-    }, [category, activeTab]);
+    }, [category, activeTab, i18n.language]);
 
 
 
@@ -53,9 +56,12 @@ function MediaPage({ category }) {
     };
 
     const fetchMovies = (page = 1) => {
+        const lang = i18n.language;
+
         let url = category === 'popular'
-            ? `/api/${category}/movies/?page=${page}`
-            : `/api/${category}/movies/`;
+            ? `/api/${category}/movies/?page=${page}&language=${lang}`
+            : `/api/${category}/movies/?language=${lang}`;
+
 
         return makeRequest(url)
             .then(response => {
@@ -78,9 +84,11 @@ function MediaPage({ category }) {
     };
 
     const fetchSeries = (page = 1) => {
+        const lang = i18n.language;
+
         let url = category === 'popular'
-            ? `/api/${category}/series/?page=${page}`
-            : `/api/${category}/series/`;
+            ? `/api/${category}/series/?page=${page}&language=${lang}`
+            : `/api/${category}/series/?language=${lang}`;
 
         return makeRequest(url)
             .then(response => {
@@ -158,7 +166,10 @@ function MediaPage({ category }) {
         );
     };
 
-
+    // Static Strings
+    const { t } = useTranslation();
+    const moviesString = t('movies')
+    const seriesString = t('series')
 
     return (
         <div className="page">
@@ -172,8 +183,8 @@ function MediaPage({ category }) {
                             transition: '75ms ease'
                         }
                     }}>
-                    <Tab className="customTab" label="Movies" />
-                    <Tab className="customTab" label="TV Series" />
+                    <Tab className="customTab" label={moviesString} />
+                    <Tab className="customTab" label={seriesString} />
                 </Tabs>
             </Box>
 

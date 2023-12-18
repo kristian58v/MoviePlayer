@@ -4,6 +4,8 @@ import MoviePlayerModal from "../components/MoviePlayerModal";
 import InfiniteScroll from "react-infinite-scroller";
 import { useApi } from '../util/useApi';
 import {debounce} from "@mui/material";
+import {t} from "i18next";
+import {useTranslation} from "react-i18next";
 
 function HistoryPage() {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -15,9 +17,10 @@ function HistoryPage() {
     const [hasMoreItems, setHasMoreItems] = useState(true)
 
     const makeRequest = useApi();
+    const { i18n } = useTranslation();
 
     const fetchHistory = async (page) => {
-        const response = await makeRequest(`/api/get_watched_items?page=${page}`);
+        const response = await makeRequest(`/api/get_watched_items?page=${page}&language=${i18n.language}`);
         if (response.error) {
             console.log('Error fetching watch history:', response.message || response.status);
         } else {
@@ -55,9 +58,15 @@ function HistoryPage() {
     };
 
 
+    // useEffect(() => {
+    //     fetchHistory(1); // Fetch first page on component mount
+    // }, []);
+
     useEffect(() => {
-        fetchHistory(1); // Fetch first page on component mount
-    }, []);
+        fetchHistory(1);
+        setMovieCategories({ today: [], yesterday: [], others: {} })
+        setCurrentPage(1)
+    }, [i18n.language]);
 
     const handleMovieSelect = (movie) => {
         setSelectedMovie(movie);
@@ -120,7 +129,7 @@ function HistoryPage() {
                         {movieCategories.today.length > 0 && (
                             <>
                                 <div className={"customTab fullWidth"}>
-                                    <h2>Today</h2>
+                                    <h2>{t('today')}</h2>
                                 </div>
                                 {movieCategories.today.map(movie => (
                                     <MovieCard
@@ -134,7 +143,7 @@ function HistoryPage() {
                         {movieCategories.yesterday.length > 0 && (
                             <>
                                 <div className={"customTab fullWidth"}>
-                                    <h2>Yesterday</h2>
+                                    <h2>{t('yesterday')}</h2>
                                 </div>
 
                                 {movieCategories.yesterday.map(movie => (
