@@ -10,7 +10,7 @@ import "../styles/login.css"
 
 const LoginPage = () => {
     const navigate = useNavigate();
-    const { setAuthenticated } = useAuth();
+    const { setAuthenticated, setEmail, setFirstName, setLastName } = useAuth();
 
     const googleLogin = useGoogleLogin({
         ux_mode: 'popup',
@@ -32,6 +32,9 @@ const LoginPage = () => {
 
             if (data.message === "Success") {
                 setAuthenticated(true);
+                setEmail(data.email);
+                setFirstName(data.first_name);
+                setLastName(data.last_name);
                 navigate("/");
             } else {
                 // Handle authentication failure

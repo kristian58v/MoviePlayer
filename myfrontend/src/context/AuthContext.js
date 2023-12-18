@@ -37,7 +37,7 @@ export const AuthProvider = ({ children }) => {
         };
 
         verifyAuthentication();
-    }, []);
+    }, [isAuthenticated]);
 
     const setAuthenticated = (authStatus) => {
         setIsAuthenticated(authStatus);
@@ -64,7 +64,9 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated, setAuthenticated, logout, email, firstName, lastName}}>
+        <AuthContext.Provider value={{
+            isAuthenticated, setAuthenticated, logout, email, firstName, lastName,
+            setEmail, setFirstName, setLastName}}>
             {children}
         </AuthContext.Provider>
     );

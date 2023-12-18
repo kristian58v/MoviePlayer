@@ -86,7 +86,10 @@ def exchange_code(request):
 
             LogEntry.objects.create(level='INFO', message="User Login", user=user)
 
-            return JsonResponse({'message': 'Success'})
+            return JsonResponse({'message': 'Success',
+                                 'email': user.email,
+                                 'first_name': user.first_name,
+                                 'last_name': user.last_name})
         else:
             # return JsonResponse({'redirect': redirect_url})
             # return JsonResponse(response.json())
