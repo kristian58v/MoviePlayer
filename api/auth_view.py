@@ -109,9 +109,9 @@ def create_or_update_user(user_info):
     # print("creating user")
 
     user, created = User.objects.get_or_create(
-        email=user_info['email'],
+        username=user_info['sub'],
         defaults={
-            'username': user_info['email'],
+            'email': user_info['email'],
             'first_name': user_info['given_name'],
             'last_name': user_info['family_name']
         }
