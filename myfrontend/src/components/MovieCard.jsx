@@ -12,6 +12,9 @@ function MovieCard({ movie, onMovieSelect }) {
         ? `https://image.tmdb.org/t/p/w400${poster_path}`
         : default_poster;
 
+    // const imageUrl = ""
+
+
     // Static Strings
     const { t } = useTranslation();
     const firstAirDateString = t('first_air_date')

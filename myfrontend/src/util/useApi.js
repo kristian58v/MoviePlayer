@@ -1,4 +1,8 @@
+import {useAuth} from "../context/AuthContext";
+
 export const useApi = () => {
+
+    const { setAuthenticated } = useAuth();
 
     const makeRequest = async (url, body = {}, method = 'GET') => {
         const options = {
@@ -18,6 +22,9 @@ export const useApi = () => {
             const data = await response.json();
 
             if (!response.ok) {
+                if (response.status === 401 || response.status === 403) {
+                    setAuthenticated(false);
+                }
                 // Return error data with status
                 return { error: true, status: response.status, data };
             }
