@@ -115,8 +115,8 @@ def create_or_update_user(user_info):
         username=user_info['sub'],
         defaults={
             'email': user_info['email'],
-            'first_name': user_info['given_name'],
-            'last_name': user_info['family_name']
+            'first_name': user_info.get('given_name', ''),
+            'last_name': user_info.get('family_name', '')
         }
     )
 
